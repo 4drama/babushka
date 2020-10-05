@@ -23,10 +23,10 @@ def create_player():
 	player.add_spell("Charge arrow",
 		utils.spell('3', 0, 0, utils.spell_type.attack))
 
-#	player.autospell("Improved concentration",
-#		utils.cast_type.every_time, [lambda dist: player.cur_sp > 70])
-#	player.autospell("Wind walk",
-#		utils.cast_type.every_time, [lambda dist: player.cur_sp > 100])
+	player.autospell("Improved concentration",
+		utils.cast_type.every_time, [lambda dist: player.cur_sp > 70])
+	player.autospell("Wind walk",
+		utils.cast_type.every_time, [lambda dist: player.cur_sp > 100])
 
 	player.autospell("Charge arrow",
 		utils.cast_type.battle, [lambda dist: player.cur_sp > 15 and dist < 3])
@@ -37,7 +37,7 @@ def create_player():
 	player.add_potion("Strawberry", utils.potion('6', 0))
 	player.add_potion("Wing", utils.potion('8', 0))
 
-#	player.autopotion("Strawberry", [lambda : player.sp_rate() < 0.3])
+	player.autopotion("Strawberry", [lambda : player.sp_rate() < 0.3])
 
 	return player
 

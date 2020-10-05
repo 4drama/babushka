@@ -480,8 +480,8 @@ class map:
 
 		vec_dir = self.vec_dir(self.target_index, position)
 
-		ahk.mouse_move(player.screen_position.x + (140 * vec_dir.x),
-			player.screen_position.y + (-140 * vec_dir.y), speed=3, blocking=True)
+		ahk.mouse_move(player.screen_position.x + (180 * vec_dir.x),
+			player.screen_position.y + (-180 * vec_dir.y), speed=3, blocking=True)
 
 		self.check_and_fix_idle(player, t)
 

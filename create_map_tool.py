@@ -55,7 +55,7 @@ def set_chain(ev):
 
 	canvas.create_line(
 		map.nodes[first].pos.x * 2, 770 - map.nodes[first].pos.y * 2,
-		map.nodes[second].pos.x * 2, 770 - map.nodes[second].pos.y * 2)
+		map.nodes[second].pos.x * 2, 770 - map.nodes[second].pos.y * 2, width = 3)
 
 def save(ev):
 	filename = save_entry.get()
