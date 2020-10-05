@@ -72,7 +72,6 @@ class error_timer:
 		else :
 			self.drop_refresh()
 
-
 	def drop_refresh(self):
 		self.drop_error = 0
 
@@ -141,6 +140,7 @@ class spell:
 		return False
 
 	def use(self, player, target):
+		random_sleep(0.025)
 		if self.type == spell_type.attack or self.type == spell_type.buffing :
 			ahk.key_press(self.key)
 			random_sleep(0.03)
@@ -216,6 +216,8 @@ class player:
 
 		self.auto_use_potion = []
 
+		self.auto_attack = True
+
 	def add_potion(self, name, potion):
 		self.potions[name] = potion
 
@@ -243,6 +245,18 @@ class player:
 		for potion_name in self.auto_use_potion :
 			self.potions[potion_name].try_use()
 
+	def attack(self, map, time, error_timer, target, wait_time) :
+		if not self.try_spells(target):
+			if self.auto_attack :
+				click_to_enemy(self, target, wait_time, 2)
+		map.idle_time = 0
+		error_timer.enemy(self, map, time.frame_time)
+
+	def take(self, map, time, error_timer, target, wait_time) :
+		click_to_object(self, target, wait_time, 2)
+		map.idle_time = 0
+		error_timer.drop(self, map, time.frame_time)
+
 	def try_spells(self, target) :
 		hit = False
 		for spell_name in self.auto_use_battle:
@@ -267,6 +281,9 @@ class player:
 		for predicate in predicates :
 			self.potions[potion_name].predicates.append(predicate)
 		self.auto_use_potion.append(potion_name)
+
+	def enable_autoattack(self, val):
+		self.auto_attack = val
 
 	def hp_rate(self):
 		return self.cur_hp / self.max_hp
@@ -320,11 +337,12 @@ def move_mouse_to(pos, speed2):
 	ahk.mouse_move(pos.x, pos.y, speed=speed2 + random.uniform(0, 1), blocking=True)
 
 def move_mouse_with_ofset_to(pos, speed2):
-	ahk.mouse_move(pos.x + 10 + win_left_offset, pos.y + 10 + win_top_offset,
+	ahk.mouse_move(pos.x + 20 + win_left_offset, pos.y + 20 + win_top_offset,
 		speed=speed2, blocking=True)
 
 def click_to_object(player, obj, t, speed2):
-	ahk.mouse_move(obj.x + 10 + win_left_offset, obj.y + 10 + win_top_offset,
+	random_sleep(0.05)
+	ahk.mouse_move(obj.x + 10 + win_left_offset, obj.y + 5 + win_top_offset,
 		speed=speed2, blocking=True)
 	random_sleep(0.08)
 	ahk.click()
@@ -332,7 +350,7 @@ def click_to_object(player, obj, t, speed2):
 	random_sleep(t)
 
 def click_to_enemy(player, obj, t, speed2):
-	ahk.mouse_move(obj.x + 10 + win_left_offset, obj.y + 10 + win_top_offset,
+	ahk.mouse_move(obj.x + 20 + win_left_offset, obj.y + 20 + win_top_offset,
 		speed=speed2, blocking=True)
 	random_sleep(0.08)
 	ahk.key_down('Control')
